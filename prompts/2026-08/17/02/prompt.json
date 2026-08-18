@@ -1,0 +1,16 @@
+{
+  "id": "02",
+  "title": "Flappy Bird Clone with Real Assets",
+  "difficulty": "Medium",
+  "submitted_by": "@kingar1000",
+  "prompt": "Create Flappy Bird game.\n\nMake it endless.\n\nCreate the entire game in a single index.html file, with all HTML, CSS, and JavaScript embedded.\n\nKeep the game visually polished, responsive, and playable in a browser.\n\nUSE REAL FLAPPY BIRD ASSETS.\n\nIt should look exactly like real Flappy Bird.",
+  "models_tested": [
+    "claude-opus-5",
+    "claude-opus-4.8",
+    "gpt-5.6-sol",
+    "gemini-3.7-flash",
+    "kimi-k3",
+    "deepseek-v4-pro-0813",
+    "grok-4.6"
+  ]
+}
