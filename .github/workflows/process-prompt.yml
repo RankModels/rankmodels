@@ -25,16 +25,13 @@ jobs:
 
       - name: Generate Folder & Files
         run: |
-          # 1. Calculate Date Paths & Run ID
           DATE_PATH="prompts/$(date +'%Y-%m/%d')"
           mkdir -p "$DATE_PATH"
           
-          # Auto-increment run ID folder (01, 02, 03...)
           COUNT=$(find "$DATE_PATH" -mindepth 1 -maxdepth 1 -type d | wc -l)
           RUN_ID=$(printf "\%02d" $((COUNT + 1)))
           FULL_PATH="$DATE_PATH/$RUN_ID"
 
-          # 2. Setup Provider Folders
           MODELS=(
             "claude/claude-opus-5"
             "openai/gpt-5.6-sol"
@@ -47,7 +44,6 @@ jobs:
             echo -e "# Response\n\n*Pending output submission...*" > "$FULL_PATH/$MODEL_PATH/response.md"
           done
 
-          # 3. Create prompt.json
           python3 -c "
           import json, os
           data = {
