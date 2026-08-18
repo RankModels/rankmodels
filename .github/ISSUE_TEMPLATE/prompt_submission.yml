@@ -1,0 +1,32 @@
+name: "Prompt Submission"
+description: "Submit a prompt to be benchmarked across models."
+title: "[Prompt]: "
+labels: ["prompt-submission"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Prompt Title
+      placeholder: "e.g., Pure CSS Snake Game"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty Level
+      options:
+        - Easy
+        - Medium
+        - Hard
+        - Extreme
+    validations:
+      required: true
+
+  - type: textarea
+    id: prompt_text
+    attributes:
+      label: Exact Prompt Text
+      description: Enter the exact prompt text to evaluate.
+    validations:
+      required: true
