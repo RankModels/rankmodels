@@ -30,21 +30,25 @@ Prompt logs are archived according to date format `YYYY-MM/DD`, followed by prov
 
 ```text
 /prompts
-  └── /YYYY-MM                     # Year-Month folder
-        └── /DD                    # Day of test run
-              ├── /claude
-              │     ├── /claude-opus-5
-              │     └── /claude-sonnet-5
-              ├── /openai
-              │     ├── /gpt-5.6-sol
-              │     └── /gpt-5.5-pro
-              ├── /gemini
-              │     └── /gemini-3.7-flash
-              ├── /deepseek
-              │     └── /deepseek-v4-pro
-              ├── /grok
-              │     └── /grok-4.20-reasoning
-              ├── /kimi
-              │     └── /kimi-k3
-              └── /minimax
-                    └── /minimax-m3
+  └── /YYYY-MM                     # Year-Month folder (e.g., 2026-08)
+        └── /DD                    # Day of test run (e.g., 17)
+              ├── /01              # Prompt ID / Run ID
+              │     ├── prompt.md  # Raw prompt & user constraints
+              │     ├── /claude
+              │     │     ├── /claude-opus-5
+              │     │     │     └── response.md
+              │     │     └── /claude-sonnet-5
+              │     │           └── response.md
+              │     ├── /gemini
+              │     │     ├── /gemini-3.6-flash
+              │     │     ├── /gemini-3.5-flash-lite
+              │     │     └── /gemini-3.1-pro-preview
+              │     ├── /openai
+              │     │     ├── /gpt-5.6-sol
+              │     │     └── /gpt-5.5-pro
+              │     └── /deepseek
+              │           └── /deepseek-v4-pro
+              │
+              └── /02              # Next prompt of the day
+                    ├── prompt.md
+                    └── ...
