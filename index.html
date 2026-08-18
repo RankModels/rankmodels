@@ -2,47 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>RankModels Arena</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <title>RankModels Interactive Arena</title>
+  <script src="[https://cdn.jsdelivr.net/npm/marked/marked.min.js](https://cdn.jsdelivr.net/npm/marked/marked.min.js)"></script>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0d1117; color: #c9d1d9; padding: 20px; }
-    .prompt-box { background: #161b22; padding: 15px; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px; }
+    body { font-family: sans-serif; background: #0d1117; color: #c9d1d9; padding: 20px; }
     .arena { display: flex; gap: 20px; }
-    .card { flex: 1; background: #161b22; padding: 15px; border-radius: 8px; border: 1px solid #30363d; overflow-x: auto; }
+    .card { flex: 1; background: #161b22; padding: 15px; border-radius: 8px; border: 1px solid #30363d; }
+    
+    .preview-box { margin-top: 15px; border-top: 1px solid #30363d; padding-top: 10px; }
+    iframe { width: 100%; height: 420px; border: none; border-radius: 6px; background: #fff; }
   </style>
 </head>
 <body>
-  <h1>🌟 RankModels Arena</h1>
+  <h1>🌟 RankModels Live Arena</h1>
   
-  <div class="prompt-box" id="prompt-container">Loading prompt info...</div>
-
   <div class="arena">
-    <div class="card" id="model-1">Loading model 1...</div>
-    <div class="card" id="model-2">Loading model 2...</div>
+    <div class="card" id="model-1">Loading...</div>
+    <div class="card" id="model-2">Loading...</div>
   </div>
 
   <script>
-    async function initArena(runPath) {
-      const jsonRes = await fetch(`${runPath}/prompt.json`);
-      const promptData = await jsonRes.json();
-      
-      document.getElementById('prompt-container').innerHTML = `
-        <h2>${promptData.title} <small>(${promptData.difficulty})</small></h2>
-        <p><strong>Submitted by:</strong> ${promptData.submitted_by}</p>
-        <blockquote style="border-left: 3px solid #58a6ff; padding-left: 10px; color: #8b949e;">${promptData.prompt}</blockquote>
-      `;
-
-      loadMarkdown(`${runPath}/claude/claude-opus-5/response.md`, 'model-1');
-      loadMarkdown(`${runPath}/openai/gpt-5.6-sol/response.md`, 'model-2');
-    }
-
-    async function loadMarkdown(filePath, elementId) {
+    async function loadModelOutput(filePath, elementId) {
       const res = await fetch(filePath);
-      const text = await res.text();
-      document.getElementById(elementId).innerHTML = marked.parse(text);
+      const mdText = await res.text();
+      
+      const card = document.getElementById(elementId);
+      
+      card.innerHTML = marked.parse(mdText);
+
+      const htmlMatch = mdText.match(/```html\n([\s\S]*?)\n```/i);
+      
+      if (htmlMatch && htmlMatch[1]) {
+        const rawHtmlCode = htmlMatch[1];
+        
+        const previewDiv = document.createElement('div');
+        previewDiv.className = 'preview-box';
+        previewDiv.innerHTML = `
+          <h3>🎮 Live Interactive Demo</h3>
+          <iframe sandbox="allow-scripts allow-modals" srcdoc="${escapeHtmlAttr(rawHtmlCode)}"></iframe>
+        `;
+        card.appendChild(previewDiv);
+      }
     }
 
-    initArena('./prompts/2026-08/17/01');
+    function escapeHtmlAttr(str) {
+      return str.replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+    }
+
+    loadModelOutput('./prompts/2026-08/17/01/claude/claude-opus-5/response.md', 'model-1');
+    loadModelOutput('./prompts/2026-08/17/01/openai/gpt-5.6-sol/response.md', 'model-2');
   </script>
 </body>
 </html>
